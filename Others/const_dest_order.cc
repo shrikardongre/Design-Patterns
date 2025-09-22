@@ -46,3 +46,30 @@ This is the Derived class constructor
 This is the Derived class destructor
 Base class destructor
 */
+
+
+/*
+Why constructors cannot be virtual:
+
+Object type must be known at creation
+
+When you do new Derived(), the compiler must know the exact type (Derived) at compile time so it can allocate the right size and lay out the vtable.
+
+Virtual dispatch requires a vtable pointer, but that vtable isn’t set up until after the base constructor finishes.
+
+So at the moment of construction, there’s no mechanism for polymorphic dispatch.
+
+That’s why constructors can’t be virtual.
+
+🔹 Why destructors can be virtual:
+
+At destruction, dynamic type matters
+
+If you delete an object through a base pointer (delete basePtr;), the compiler needs to destroy the most-derived object.
+
+Virtual dispatch works here, because the vtable is still valid until the most-derived destructor starts.
+
+So a virtual ~Base() ensures the derived destructor runs first, cleaning up derived resources, before base cleanup.
+
+
+*/
